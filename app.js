@@ -2,7 +2,7 @@ const form = document.querySelector('form');
 const ulList = document.querySelector('.collection');
 const inputVal = document.querySelector('#task');
 const clearAll = document.querySelector('.clear-tasks');
-//console.log(inputVal);
+const filterText = document.querySelector('#filter');
 
 
 loadEventListeners();
@@ -11,6 +11,7 @@ function loadEventListeners() {
     form.addEventListener('submit', addTask);
     ulList.addEventListener('click', removeTask);
     clearAll.addEventListener('click', clearTasks);
+    filterText.addEventListener('input',filterTasks);
 }
 
 function addTask(e) {
@@ -32,7 +33,6 @@ function addTask(e) {
         li.appendChild(del);
         ulList.appendChild(li);
 
-        //console.log(ulList);
 
         inputVal.value = ' ';
 
@@ -52,4 +52,23 @@ function clearTasks(e){
     while(ulList.firstChild){
         ulList.firstChild.remove();
     }
+}
+
+function filterTasks(e){
+    text = e.target.value.toLowerCase();
+
+    document.querySelectorAll('.collection-item').forEach(
+        function(task){
+
+            item = task.textContent.toLowerCase();
+
+            if(item.indexOf(text) != -1){
+                task.style.display = 'block'; 
+            }   
+            else{
+                task.style.display = 'none';
+            }
+            
+        }
+    )
 }

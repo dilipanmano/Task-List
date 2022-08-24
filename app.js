@@ -8,12 +8,39 @@ const filterText = document.querySelector('#filter');
 loadEventListeners();
 
 function loadEventListeners() {
+    document.addEventListener('DOMContentLoaded', loadTaskFromLS);
     form.addEventListener('submit', addTask);
     ulList.addEventListener('click', removeTask);
     clearAll.addEventListener('click', clearTasks);
     filterText.addEventListener('input', filterTasks);
 }
 
+
+function loadTaskFromLS() {
+    let tasks;
+    if (localStorage.getItem('Tasks') === null) {
+        tasks = [];
+    }
+    else {
+        tasks = JSON.parse(localStorage.getItem('Tasks'));
+
+        tasks.forEach(function (task) {
+            const li = document.createElement('li');
+            li.className = 'collection-item';
+            //li.textContent = inputVal.value;
+            li.appendChild(document.createTextNode(task));
+
+
+            const del = document.createElement('a');
+            del.className = "delete-item secondary-content";
+            del.innerHTML = '<i class="ri-close-line"></i>';
+
+
+            li.appendChild(del);
+            ulList.appendChild(li);
+        });
+    }
+}
 
 function storeInLocalStorage(newTask) {
     let tasks;
@@ -24,7 +51,7 @@ function storeInLocalStorage(newTask) {
         tasks = JSON.parse(localStorage.getItem('Tasks'));
     }
     tasks.push(newTask);
-    localStorage.setItem('Tasks',JSON.stringify(tasks));
+    localStorage.setItem('Tasks', JSON.stringify(tasks));
 
 }
 

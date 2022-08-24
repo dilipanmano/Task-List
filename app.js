@@ -86,7 +86,34 @@ function addTask(e) {
 function removeTask(e) {
     if (e.target.parentElement.classList.contains('delete-item') && confirm("Are you sure?")) {
         e.target.parentElement.parentElement.remove();
+        deleteTaskfromLS(e.target.parentElement.parentElement);
     }
+}
+
+function deleteTaskfromLS(data) {
+
+    let tasks;
+    if (localStorage.getItem('Tasks') === null) {
+        tasks = [];
+    }
+    else {
+        tasks = JSON.parse(localStorage.getItem('Tasks'));
+    }
+
+    tasks.forEach(function(task, index){
+        if(data.textContent === task){
+            tasks.splice(index,1);
+        }
+    })
+
+    /*var index = tasks.indexOf(data.textContent);
+
+    if (index !== -1) {
+        tasks.splice(index, 1);
+        console.log(tasks);
+    } */
+
+    localStorage.setItem('Tasks',JSON.stringify(tasks));
 }
 
 function clearTasks(e) {
@@ -94,6 +121,7 @@ function clearTasks(e) {
     if (confirm("Are you sure?"))
         while (ulList.firstChild) {
             ulList.firstChild.remove();
+            localStorage.clear();
         }
 }
 

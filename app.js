@@ -42,13 +42,14 @@ function addTask(e) {
 }
 
 function removeTask(e){
-    if(e.target.parentElement.classList.contains('delete-item')){
+    if(e.target.parentElement.classList.contains('delete-item') && confirm("Are you sure?")){
         e.target.parentElement.parentElement.remove();
     }
 }
 
 function clearTasks(e){
     //ulList.innerHTML = '';
+    if(confirm("Are you sure?"))
     while(ulList.firstChild){
         ulList.firstChild.remove();
     }
@@ -68,7 +69,7 @@ function filterTasks(e){
             else{
                 task.style.display = 'none';
             }
-            
+
         }
     )
 }

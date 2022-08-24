@@ -34,7 +34,7 @@ function addTask(e) {
         ulList.appendChild(li);
 
 
-        inputVal.value = ' ';
+        inputVal.value = '';
 
     }
 

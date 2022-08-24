@@ -1,13 +1,14 @@
 const form = document.querySelector('form');
 const ulList = document.querySelector('.collection');
 const inputVal = document.querySelector('#task');
-console.log(inputVal);
+//console.log(inputVal);
 
 
 loadEventListeners();
 
 function loadEventListeners() {
     form.addEventListener('submit', addTask);
+    ulList.addEventListener('click', removeTask);
 }
 
 function addTask(e) {
@@ -29,11 +30,17 @@ function addTask(e) {
         li.appendChild(del);
         ulList.appendChild(li);
 
-        console.log(ulList);
+        //console.log(ulList);
 
         inputVal.value = ' ';
 
     }
 
     e.preventDefault();
+}
+
+function removeTask(e){
+    if(e.target.parentElement.classList.contains('delete-item')){
+        e.target.parentElement.parentElement.remove();
+    }
 }

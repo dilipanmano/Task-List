@@ -11,7 +11,21 @@ function loadEventListeners() {
     form.addEventListener('submit', addTask);
     ulList.addEventListener('click', removeTask);
     clearAll.addEventListener('click', clearTasks);
-    filterText.addEventListener('input',filterTasks);
+    filterText.addEventListener('input', filterTasks);
+}
+
+
+function storeInLocalStorage(newTask) {
+    let tasks;
+    if (localStorage.getItem('Tasks') === null) {
+        tasks = [];
+    }
+    else {
+        tasks = JSON.parse(localStorage.getItem('Tasks'));
+    }
+    tasks.push(newTask);
+    localStorage.setItem('Tasks',JSON.stringify(tasks));
+
 }
 
 function addTask(e) {
@@ -23,16 +37,17 @@ function addTask(e) {
         li.className = 'collection-item';
         //li.textContent = inputVal.value;
         li.appendChild(document.createTextNode(inputVal.value));
-        
+
 
         const del = document.createElement('a');
         del.className = "delete-item secondary-content";
-        del.innerHTML='<i class="ri-close-line"></i>';
-        
-    
+        del.innerHTML = '<i class="ri-close-line"></i>';
+
+
         li.appendChild(del);
         ulList.appendChild(li);
 
+        storeInLocalStorage(inputVal.value);
 
         inputVal.value = '';
 
@@ -41,32 +56,32 @@ function addTask(e) {
     e.preventDefault();
 }
 
-function removeTask(e){
-    if(e.target.parentElement.classList.contains('delete-item') && confirm("Are you sure?")){
+function removeTask(e) {
+    if (e.target.parentElement.classList.contains('delete-item') && confirm("Are you sure?")) {
         e.target.parentElement.parentElement.remove();
     }
 }
 
-function clearTasks(e){
+function clearTasks(e) {
     //ulList.innerHTML = '';
-    if(confirm("Are you sure?"))
-    while(ulList.firstChild){
-        ulList.firstChild.remove();
-    }
+    if (confirm("Are you sure?"))
+        while (ulList.firstChild) {
+            ulList.firstChild.remove();
+        }
 }
 
-function filterTasks(e){
+function filterTasks(e) {
     text = e.target.value.toLowerCase();
 
     document.querySelectorAll('.collection-item').forEach(
-        function(task){
+        function (task) {
 
             item = task.textContent.toLowerCase();
 
-            if(item.indexOf(text) != -1){
-                task.style.display = 'block'; 
-            }   
-            else{
+            if (item.indexOf(text) != -1) {
+                task.style.display = 'block';
+            }
+            else {
                 task.style.display = 'none';
             }
 
